@@ -1,0 +1,36 @@
+# ... Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator
+  template:
+    metadata:
+      labels:
+        app: calculator
+    spec:
+      containers:
+        - name: calculator
+          image: langmop/cn10:1
+          ports:
+            - containerPort: 3001
+          imagePullPolicy: Always
+
+---
+# ... Service YAML definition
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator
+spec:
+  selector:
+    app: calculator
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: LoadBalancer
